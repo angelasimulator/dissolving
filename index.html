@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science Lab: The Magic of Dissolving!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="text-slate-800 bg-slate-50 min-h-screen flex flex-col justify-between selection:bg-indigo-100 selection:text-indigo-800">
+
+    <header class="bg-indigo-600 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center space-x-3">
+                <span class="text-3xl">🧪</span>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold tracking-wide">Science Lab: The Magic of Dissolving!</h1>
+                    <p class="text-xs text-indigo-200">Primary Science Interactive Learning Module</p>
+                </div>
+            </div>
+            
+            <nav class="flex flex-wrap gap-1 bg-indigo-700/60 p-1 rounded-xl text-xs md:text-sm font-medium">
+                <button onclick="switchPart(1)" id="tab-1" class="px-3 py-1.5 rounded-lg transition-all duration-200 bg-white text-indigo-700 font-bold shadow-sm">Part 1: Soluble vs Insoluble</button>
+                <button onclick="switchPart(2)" id="tab-2" class="px-3 py-1.5 rounded-lg transition-all duration-200 hover:bg-indigo-500/50">Part 2: Factors Lab</button>
+                <button onclick="switchPart(3)" id="tab-3" class="px-3 py-1.5 rounded-lg transition-all duration-200 hover:bg-indigo-500/50">Part 3: Summary</button>
+                <button onclick="switchPart(4)" id="tab-4" class="px-3 py-1.5 rounded-lg transition-all duration-200 hover:bg-indigo-500/50">Part 4: Quiz</button>
+                <button onclick="switchPart(5)" id="tab-5" class="px-3 py-1.5 rounded-lg transition-all duration-200 hover:bg-indigo-500/50">Part 5: Enrichment</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <section id="part-1" class="space-y-6">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 font-semibold text-xs rounded-full uppercase tracking-wider mb-1">Part 1</span>
+                        <h2 class="text-2xl font-bold text-slate-800">What Happens When Things Dissolve?</h2>
+                        <p class="text-slate-600 text-sm mt-1">Add materials to clear water. Watch particles drop inside the beaker and see how soluble molecules unbind and disperse, while insoluble stones retain their rigid lattice!</p>
+                    </div>
+
+                    <div class="flex bg-slate-100 p-1.5 rounded-xl border border-slate-200 self-stretch md:self-auto justify-center">
+                        <button id="p1-view-reality" onclick="setP1View('reality')" class="flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center space-x-1">
+                            <span>🔍 Reality View</span>
+                        </button>
+                        <button id="p1-view-molecular" onclick="setP1View('molecular')" class="flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center space-x-1">
+                            <span>⚛️ Molecular View</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Control Panel -->
+                    <div class="bg-indigo-50/60 p-4 rounded-xl border border-indigo-100 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-sm mb-2 flex items-center">
+                                <span class="w-2 h-2 bg-indigo-600 rounded-full inline-block mr-2"></span> Select Solute to Add (+10.0g)
+                            </h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="addSoluteP1('sugar')" class="p-3 bg-white hover:bg-indigo-100/80 border border-indigo-200 rounded-xl text-left transition-all group flex flex-col items-center justify-center text-center shadow-sm">
+                                    <span class="text-2xl mb-1 group-hover:scale-110 transition-transform">🍬</span>
+                                    <span class="font-bold text-xs text-slate-700">Sugar</span>
+                                    <span class="text-[10px] text-indigo-600 font-medium">Soluble</span>
+                                </button>
+                                <button onclick="addSoluteP1('salt')" class="p-3 bg-white hover:bg-indigo-100/80 border border-indigo-200 rounded-xl text-left transition-all group flex flex-col items-center justify-center text-center shadow-sm">
+                                    <span class="text-2xl mb-1 group-hover:scale-110 transition-transform">🧂</span>
+                                    <span class="font-bold text-xs text-slate-700">Salt</span>
+                                    <span class="text-[10px] text-indigo-600 font-medium">Soluble</span>
+                                </button>
+                                <button onclick="addSoluteP1('sand')" class="p-3 bg-white hover:bg-indigo-100/80 border border-indigo-200 rounded-xl text-left transition-all group flex flex-col items-center justify-center text-center shadow-sm">
+                                    <span class="text-2xl mb-1 group-hover:scale-110 transition-transform">⏳</span>
+                                    <span class="font-bold text-xs text-slate-700">Sand</span>
+                                    <span class="text-[10px] text-slate-500 font-medium">Insoluble</span>
+                                </button>
+                                <button onclick="addSoluteP1('stone')" class="p-3 bg-white hover:bg-indigo-100/80 border border-indigo-200 rounded-xl text-left transition-all group flex flex-col items-center justify-center text-center shadow-sm">
+                                    <span class="text-2xl mb-1 group-hover:scale-110 transition-transform">🪨</span>
+                                    <span class="font-bold text-xs text-slate-700">Stone</span>
+                                    <span class="text-[10px] text-slate-500 font-medium">Insoluble</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button onclick="resetP1()" class="w-full py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs rounded-xl transition-all flex items-center justify-center space-x-1">
+                            <span>🔄 Fresh Water / Reset Scale</span>
+                        </button>
+                    </div>
+
+                    <!-- Beaker Display Canvas -->
+                    <div class="lg:col-span-2 relative bg-slate-900 rounded-2xl overflow-hidden border border-slate-700 flex flex-col items-center justify-center min-h-[380px]">
+                        <canvas id="p1-canvas" class="w-full h-full"></canvas>
+
+                        <div id="p1-legend" class="absolute top-3 right-3 bg-slate-800/90 backdrop-blur text-white p-3 rounded-xl text-xs space-y-1.5 border border-slate-600 hidden shadow-lg">
+                            <div class="font-bold text-indigo-300 mb-1 border-b border-slate-600 pb-1 flex items-center justify-between">
+                                <span>Molecular Key</span>
+                                <span class="text-[10px] text-slate-400 font-normal">⚛️ 1:1 Scale</span>
+                            </div>
+                            <div id="p1-legend-content" class="space-y-1"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div id="p1-info-box" class="p-4 bg-indigo-50 border border-indigo-100 rounded-xl text-xs md:text-sm text-slate-700 leading-relaxed">
+                        <span class="font-bold text-indigo-800 block mb-1">💡 Observation Guide:</span>
+                        <span id="p1-info-text">Select a solute above. Soluble particles fall and dissolve. In Molecular View, observe how molecules break apart and disperse evenly throughout the liquid during this physical change!</span>
+                    </div>
+
+                    <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs md:text-sm text-amber-900 leading-relaxed">
+                        <span class="font-bold text-amber-900 block mb-1">🧪 Science Concept: Physical Change!</span>
+                        Dissolving is a <b>Physical Change</b>! When a substance dissolves in water, no new chemical substance is created. The solute particles simply separate and spread out evenly between the water molecules, and the original solid can be fully recovered by evaporating the water.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="part-2" class="space-y-6 hidden">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-4">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-amber-100 text-amber-700 font-semibold text-xs rounded-full uppercase tracking-wider mb-1">Part 2</span>
+                        <h2 class="text-2xl font-bold text-slate-800">Speed Lab: What Makes Dissolving Faster?</h2>
+                        <p class="text-slate-600 text-sm">Follow step-by-step tests for Stirring, Temperature, and Surface Area. Then test combinations in Free Lab!</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+                        <button onclick="selectP2Test(1)" id="p2-tab-1" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-white shadow-sm">Test 1: Stirring</button>
+                        <button onclick="selectP2Test(2)" id="p2-tab-2" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900">Test 2: Temperature</button>
+                        <button onclick="selectP2Test(3)" id="p2-tab-3" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900">Test 3: Surface Area</button>
+                        <button onclick="selectP2Test(4)" id="p2-tab-4" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900">🏆 Free Sandbox</button>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl mb-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl">🎯</span>
+                        <div>
+                            <div id="p2-guide-title" class="font-bold text-xs text-amber-900">Guided Test Objective</div>
+                            <div id="p2-guide-desc" class="text-xs text-amber-800">Test Condition A first, then test Condition B to compare dissolving times!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center">
+                                <span class="w-2 h-2 bg-amber-500 rounded-full inline-block mr-2"></span> Test Controls
+                            </h3>
+                            
+                            <button id="p2-btn-cond-a" onclick="runP2Condition('A')" class="w-full p-3 bg-white hover:bg-amber-50 border-2 border-amber-400 rounded-xl text-left transition-all shadow-sm flex items-center justify-between">
+                                <div>
+                                    <div class="text-[10px] font-bold uppercase tracking-wider text-amber-600" id="p2-cond-a-label">Step 1</div>
+                                    <div class="font-bold text-xs text-slate-800" id="p2-cond-a-title">Test Condition A</div>
+                                </div>
+                                <span class="text-xs bg-amber-100 text-amber-800 px-2.5 py-1 rounded-md font-bold">Start Test</span>
+                            </button>
+
+                            <button id="p2-btn-cond-b" onclick="runP2Condition('B')" class="w-full p-3 bg-white hover:bg-amber-50 border-2 border-slate-200 rounded-xl text-left transition-all shadow-sm flex items-center justify-between">
+                                <div>
+                                    <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400" id="p2-cond-b-label">Step 2</div>
+                                    <div class="font-bold text-xs text-slate-800" id="p2-cond-b-title">Test Condition B</div>
+                                </div>
+                                <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-bold">Start Test</span>
+                            </button>
+
+                            <!-- Free Sandbox Controls -->
+                            <div id="p2-free-controls" class="space-y-3 hidden border-t border-slate-200 pt-3">
+                                <div>
+                                    <label class="text-xs font-bold text-slate-700 block mb-1">1. Stirring Condition:</label>
+                                    <select id="free-stir" onchange="updateP2SimulatorPreview()" class="w-full text-xs p-2 rounded-lg border border-slate-300 bg-white font-medium">
+                                        <option value="none">No Stirring</option>
+                                        <option value="stir">Stirring</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-bold text-slate-700 block mb-1">2. Water Temperature:</label>
+                                    <select id="free-temp" onchange="updateP2SimulatorPreview()" class="w-full text-xs p-2 rounded-lg border border-slate-300 bg-white font-medium">
+                                        <option value="cold">Cold Water (10°C)</option>
+                                        <option value="room">Room Temp (25°C)</option>
+                                        <option value="hot">Hot Water (80°C)</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-bold text-slate-700 block mb-1">3. Solute Type / Particle Size:</label>
+                                    <select id="free-solute" onchange="updateP2SimulatorPreview()" class="w-full text-xs p-2 rounded-lg border border-slate-300 bg-white font-medium">
+                                        <option value="lump">Large Lump</option>
+                                        <option value="powder">Fine Powder</option>
+                                    </select>
+                                </div>
+
+                                <button onclick="runP2FreeTest()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-sm transition-all mt-2">
+                                    🚀 Test Custom Combination
+                                </button>
+                            </div>
+                        </div>
+
+                        <button id="p2-next-test-btn" onclick="nextP2Test()" disabled class="w-full py-2.5 bg-slate-200 text-slate-400 font-bold text-xs rounded-xl transition-all flex items-center justify-center space-x-1 cursor-not-allowed">
+                            <span>Proceed to Next Test ➔</span>
+                        </button>
+                    </div>
+
+                    <!-- Beaker Display Canvas Simulator -->
+                    <div class="lg:col-span-2 relative bg-slate-900 rounded-2xl overflow-hidden border border-slate-700 flex flex-col items-center justify-center min-h-[380px]">
+                        <div class="absolute top-3 left-3 right-3 bg-slate-800/90 backdrop-blur text-white px-4 py-2 rounded-xl text-xs border border-slate-600 flex flex-wrap justify-between items-center z-10 shadow-md gap-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-slate-400">⏱️ Elapsed Time:</span>
+                                <span id="p2-timer" class="font-bold text-amber-400 font-mono text-sm">0.0s</span>
+                            </div>
+                            <div class="flex space-x-4">
+                                <div><span class="text-slate-400">Cond A: </span><span id="p2-time-a" class="font-bold text-indigo-300">--</span></div>
+                                <div><span class="text-slate-400">Cond B: </span><span id="p2-time-b" class="font-bold text-amber-300">--</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Live Beaker Canvas -->
+                        <canvas id="p2-canvas" class="w-full h-full"></canvas>
+
+                        <!-- Canvas Simulator Parameter Status Badge -->
+                        <div class="absolute bottom-3 left-3 bg-slate-800/80 backdrop-blur text-slate-200 text-[11px] px-3 py-1.5 rounded-lg border border-slate-600 flex items-center space-x-3">
+                            <div><span class="text-slate-400">Temp:</span> <span id="p2-status-temp" class="font-bold text-sky-300">25°C</span></div>
+                            <div><span class="text-slate-400">Stirring:</span> <span id="p2-status-stir" class="font-bold text-amber-300">None</span></div>
+                            <div><span class="text-slate-400">Solute:</span> <span id="p2-status-solute" class="font-bold text-emerald-300">Fine Powder</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="p2-explanation-box" class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs md:text-sm text-slate-800 leading-relaxed hidden">
+                    <span class="font-bold text-amber-900 text-base block mb-1">🧠 Scientific Mechanism Explanation:</span>
+                    <span id="p2-explanation-text">...</span>
+                </div>
+
+                <!-- Free Sandbox Congratulations Section -->
+                <div id="p2-congrats-box" class="mt-4 p-4 bg-emerald-50 border border-emerald-300 rounded-xl text-xs md:text-sm text-emerald-900 leading-relaxed hidden">
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
+                        <div>
+                            <span class="font-bold text-emerald-900 text-base block mb-1">🎉 Congratulations! You found the Ultimate Fastest Combination!</span>
+                            <span id="p2-congrats-text">You've combined <b>Stirring + Hot Water + Fine Powder!</b> Swishing water around, super-fast hot water bits, and lots of tiny powder surfaces work together to dissolve everything in a flash!</span>
+                        </div>
+                        <button onclick="switchPart(3)" class="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs md:text-sm rounded-xl shadow-md transition-all whitespace-nowrap flex items-center space-x-2">
+                            <span>Proceed to Part 3: Summary ➡️</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="part-3" class="space-y-6 hidden">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <div class="mb-6 border-b border-slate-100 pb-4">
+                    <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 font-semibold text-xs rounded-full uppercase tracking-wider mb-1">Part 3</span>
+                    <h2 class="text-2xl font-bold text-slate-800">Part 3: Factors Affecting Dissolving</h2>
+                    <p class="text-slate-600 text-sm mt-1">Review the key scientific factors that increase the speed of dissolving!</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <!-- Concept Card 1: Stirring -->
+                    <div class="bg-indigo-50/70 border border-indigo-100 p-4 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="text-2xl mb-2">🔄</div>
+                            <h3 class="font-bold text-slate-800 text-sm md:text-base mb-1">1. Stirring (Agitation)</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                • <b>Effect</b>: Stirring speeds up dissolving.<br>
+                                • <b>Why it works</b>: Stirring moves the water around! It carries dissolved parts away so fresh water can keep touching and breaking down the rest of the solid.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Concept Card 2: Temperature -->
+                    <div class="bg-amber-50/70 border border-amber-100 p-4 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="text-2xl mb-2">🌡️</div>
+                            <h3 class="font-bold text-slate-800 text-sm md:text-base mb-1">2. Water Temperature</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                • <b>Effect</b>: Warmer water dissolves solute faster.<br>
+                                • <b>Why it works</b>: Hot water has lots of heat energy! Tiny water bits zoom around super fast and bump into the solid much harder and more often!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Concept Card 3: Surface Area -->
+                    <div class="bg-emerald-50/70 border border-emerald-100 p-4 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="text-2xl mb-2">🧩</div>
+                            <h3 class="font-bold text-slate-800 text-sm md:text-base mb-1">3. Particle Surface Area</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                • <b>Effect</b>: Smaller particle sizes dissolve faster.<br>
+                                • <b>Why it works</b>: Fine powder is crushed into tiny pieces! Water can touch and dissolve all the little grains at the exact same time, instead of waiting for a big lump to melt slowly.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Takeaways Table -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6">
+                    <h3 class="font-bold text-slate-800 text-sm md:text-base mb-3 flex items-center">
+                        <span class="mr-2">📋</span> Factors Summary Table
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left text-slate-700">
+                            <thead class="text-xs text-slate-800 uppercase bg-slate-200/80">
+                                <tr>
+                                    <th class="px-3 py-2 rounded-l-lg">Factor</th>
+                                    <th class="px-3 py-2">Slower Dissolving</th>
+                                    <th class="px-3 py-2">Faster Dissolving</th>
+                                    <th class="px-3 py-2 rounded-r-lg">Scientific Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="px-3 py-2.5 font-bold text-slate-800">Stirring</td>
+                                    <td class="px-3 py-2.5">No Stirring</td>
+                                    <td class="px-3 py-2.5 font-semibold text-emerald-700">Stirring</td>
+                                    <td class="px-3 py-2.5">Swishes water around so fresh water keeps touching the solid.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2.5 font-bold text-slate-800">Temperature</td>
+                                    <td class="px-3 py-2.5">Cold Water (10°C)</td>
+                                    <td class="px-3 py-2.5 font-semibold text-emerald-700">Hot Water (80°C)</td>
+                                    <td class="px-3 py-2.5">Zooming hot water bits bump into the solid faster and harder.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2.5 font-bold text-slate-800">Surface Area</td>
+                                    <td class="px-3 py-2.5">Large Solid Lump</td>
+                                    <td class="px-3 py-2.5 font-semibold text-emerald-700">Fine Powder</td>
+                                    <td class="px-3 py-2.5">Lots of tiny powder grains let water touch much more of the solid at once.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="switchPart(4)" class="px-5 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs md:text-sm rounded-xl shadow-md transition-all flex items-center space-x-2">
+                        <span>Take the Knowledge Quiz in Part 4 ➡️</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="part-4" class="space-y-6 hidden">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <div class="mb-6 flex justify-between items-center">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-purple-100 text-purple-700 font-semibold text-xs rounded-full uppercase tracking-wider mb-1">Part 4</span>
+                        <h2 class="text-2xl font-bold text-slate-800">Knowledge Check Quiz</h2>
+                        <p class="text-slate-600 text-sm">Answer all 5 questions below. Each question has 4 choices!</p>
+                    </div>
+                    <button onclick="resetQuiz()" class="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center space-x-1">
+                        <span>🔄 Try Again / Retake Quiz</span>
+                    </button>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Q1 -->
+                    <div class="p-4 bg-purple-50/40 rounded-xl border border-purple-100 space-y-3">
+                        <h3 class="font-bold text-slate-800 text-sm md:text-base">Q1. Which method makes a sugar cube dissolve fastest in tea?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <button onclick="checkQuiz(1, 'A')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">A) Put the whole cube into iced tea without stirring</button>
+                            <button onclick="checkQuiz(1, 'B')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">B) Put the whole cube into warm tea without stirring</button>
+                            <button onclick="checkQuiz(1, 'C')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">C) Crush the cube into powder and stir quickly in hot tea</button>
+                            <button onclick="checkQuiz(1, 'D')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">D) Crush the cube into powder and leave in iced tea without stirring</button>
+                        </div>
+                        <div id="q1-feedback" class="text-xs font-bold hidden p-2.5 rounded-lg"></div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="p-4 bg-purple-50/40 rounded-xl border border-purple-100 space-y-3">
+                        <h3 class="font-bold text-slate-800 text-sm md:text-base">Q2. What type of reaction or change happens when salt dissolves in water?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <button onclick="checkQuiz(2, 'A')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">A) Chemical reaction creating a new gas</button>
+                            <button onclick="checkQuiz(2, 'B')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">B) Physical change where salt is still present in water</button>
+                            <button onclick="checkQuiz(2, 'C')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">C) Permanent destruction where salt is destroyed forever</button>
+                            <button onclick="checkQuiz(2, 'D')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">D) Freezing change where water turns into solid ice</button>
+                        </div>
+                        <div id="q2-feedback" class="text-xs font-bold hidden p-2.5 rounded-lg"></div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="p-4 bg-purple-50/40 rounded-xl border border-purple-100 space-y-3">
+                        <h3 class="font-bold text-slate-800 text-sm md:text-base">Q3. Why does fine sugar powder dissolve faster than a large sugar block?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <button onclick="checkQuiz(3, 'A')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">A) Fine sugar powder has a larger surface area touching water</button>
+                            <button onclick="checkQuiz(3, 'B')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">B) Fine sugar powder is heavier than sugar blocks</button>
+                            <button onclick="checkQuiz(3, 'C')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">C) Sugar blocks are made of insoluble rock</button>
+                            <button onclick="checkQuiz(3, 'D')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">D) Fine sugar powder makes water colder</button>
+                        </div>
+                        <div id="q3-feedback" class="text-xs font-bold hidden p-2.5 rounded-lg"></div>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div class="p-4 bg-purple-50/40 rounded-xl border border-purple-100 space-y-3">
+                        <h3 class="font-bold text-slate-800 text-sm md:text-base">Q4. What happens when sand is added into a glass of water?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <button onclick="checkQuiz(4, 'A')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">A) Sand dissolves completely and water stays clear</button>
+                            <button onclick="checkQuiz(4, 'B')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">B) Sand dissolves slowly only if you stir for 1 hour</button>
+                            <button onclick="checkQuiz(4, 'C')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">C) Sand is insoluble, so it sinks to the bottom without dissolving</button>
+                            <button onclick="checkQuiz(4, 'D')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">D) Sand evaporates into gas instantly</button>
+                        </div>
+                        <div id="q4-feedback" class="text-xs font-bold hidden p-2.5 rounded-lg"></div>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="p-4 bg-purple-50/40 rounded-xl border border-purple-100 space-y-3">
+                        <h3 class="font-bold text-slate-800 text-sm md:text-base">Q5. When a drink solution is SATURATED, what will happen if you add another scoop of powder?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <button onclick="checkQuiz(5, 'A')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">A) The extra powder will dissolve twice as fast</button>
+                            <button onclick="checkQuiz(5, 'B')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">B) The extra powder cannot dissolve and settles as sediment at the bottom</button>
+                            <button onclick="checkQuiz(5, 'C')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">C) The solution becomes completely transparent like plain water</button>
+                            <button onclick="checkQuiz(5, 'D')" class="p-3 bg-white hover:bg-purple-100 border border-slate-200 rounded-xl text-left text-xs md:text-sm font-medium transition-all">D) The liquid level drops to zero</button>
+                        </div>
+                        <div id="q5-feedback" class="text-xs font-bold hidden p-2.5 rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="part-5" class="space-y-6 hidden">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <div class="mb-4">
+                    <span class="inline-block px-3 py-1 bg-rose-100 text-rose-700 font-semibold text-xs rounded-full uppercase tracking-wider mb-1">Part 5</span>
+                    <h2 class="text-2xl font-bold text-slate-800">Enrichment: Solution Concentration & Saturation</h2>
+                    <p class="text-slate-600 text-sm mt-1">Add drink powder! See how color deepens, until water reaches SATURATION and cannot dissolve any more powder!</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-rose-50/60 p-4 rounded-xl border border-rose-100 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center">
+                                <span class="w-2 h-2 bg-rose-500 rounded-full inline-block mr-2"></span> Add Berry Drink Powder
+                            </h3>
+                            <button onclick="addScoopP5()" class="w-full py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-center space-x-2">
+                                <span>🥄 Add 1 Scoop of Powder</span>
+                            </button>
+
+                            <div class="bg-white p-3 rounded-xl border border-rose-100 space-y-2 text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500">Scoops Added:</span>
+                                    <span id="p5-scoop-count" class="font-bold text-rose-600">0 / 5 Scoops</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500">Solution State:</span>
+                                    <span id="p5-status" class="font-bold text-emerald-600">Dilute Solution</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="resetP5()" class="w-full py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs rounded-xl transition-all">
+                            🔄 Reset Solution
+                        </button>
+                    </div>
+
+                    <div class="lg:col-span-2 relative bg-slate-900 rounded-2xl overflow-hidden border border-slate-700 flex flex-col items-center justify-center min-h-[380px]">
+                        <canvas id="p5-canvas" class="w-full h-full"></canvas>
+                    </div>
+                </div>
+
+                <div id="p5-info-box" class="mt-4 p-4 bg-rose-50 border border-rose-200 rounded-xl text-xs md:text-sm text-slate-800 leading-relaxed">
+                    <span class="font-bold text-rose-900 block mb-1">💡 Main Science Concept: Saturated Solution!</span>
+                    <span id="p5-info-text">When you add powder, it dissolves and water color deepens (higher concentration). But water can only hold a maximum amount of solute! When no more solute can dissolve, the solution is <b>SATURATED</b> and extra powder settles at the bottom as sediment.</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-4 px-4 sticky bottom-0 z-40 shadow-lg">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <button id="nav-prev-btn" onclick="prevPart()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs md:text-sm transition-all flex items-center space-x-1 opacity-50 cursor-not-allowed" disabled>
+                <span>⬅️ Previous Part</span>
+            </button>
+
+            <span id="nav-part-indicator" class="text-xs font-bold text-slate-500">Part 1 of 5</span>
+
+            <button id="nav-next-btn" onclick="nextPart()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs md:text-sm transition-all flex items-center space-x-1">
+                <span>Proceed to Next Part ➡️</span>
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentPart = 1;
+
+        function switchPart(partNum) {
+            currentPart = partNum;
+            for (let i = 1; i <= 5; i++) {
+                const sec = document.getElementById(`part-${i}`);
+                const tab = document.getElementById(`tab-${i}`);
+                if (sec) {
+                    if (i === partNum) {
+                        sec.classList.remove('hidden');
+                    } else {
+                        sec.classList.add('hidden');
+                    }
+                }
+                if (tab) {
+                    if (i === partNum) {
+                        tab.className = 'px-3 py-1.5 rounded-lg transition-all duration-200 bg-white text-indigo-700 font-bold shadow-sm';
+                    } else {
+                        tab.className = 'px-3 py-1.5 rounded-lg transition-all duration-200 hover:bg-indigo-500/50';
+                    }
+                }
+            }
+
+            document.getElementById('nav-part-indicator').innerText = `Part ${currentPart} of 5`;
+            const prevBtn = document.getElementById('nav-prev-btn');
+            const nextBtn = document.getElementById('nav-next-btn');
+
+            if (currentPart === 1) {
+                prevBtn.disabled = true;
+                prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+
+            if (currentPart === 5) {
+                nextBtn.disabled = true;
+                nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+
+            setTimeout(() => {
+                resizeCanvases();
+            }, 50);
+        }
+
+        function prevPart() {
+            if (currentPart > 1) switchPart(currentPart - 1);
+        }
+
+        function nextPart() {
+            if (currentPart < 5) switchPart(currentPart + 1);
+        }
+
+        window.addEventListener('resize', resizeCanvases);
+
+        function resizeCanvases() {
+            [1, 2, 5].forEach(i => {
+                const canvas = document.getElementById(`p${i}-canvas`);
+                if (canvas && canvas.parentElement) {
+                    canvas.width = canvas.parentElement.clientWidth;
+                    canvas.height = canvas.parentElement.clientHeight;
+                }
+            });
+        }
+
+        let p1View = 'reality';
+        let p1Mass = 100.0;
+        let p1Particles = [];
+
+        function setP1View(view) {
+            p1View = view;
+            const rBtn = document.getElementById('p1-view-reality');
+            const mBtn = document.getElementById('p1-view-molecular');
+            const legend = document.getElementById('p1-legend');
+
+            if (view === 'reality') {
+                rBtn.className = 'flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center space-x-1';
+                mBtn.className = 'flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center space-x-1';
+                legend.classList.add('hidden');
+            } else {
+                mBtn.className = 'flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center space-x-1';
+                rBtn.className = 'flex-1 md:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center space-x-1';
+                legend.classList.remove('hidden');
+            }
+        }
+
+        function updateP1Legend(type) {
+            const legendContent = document.getElementById('p1-legend-content');
+            if (type === 'salt') {
+                legendContent.innerHTML = `
+                    <div class="flex items-center space-x-2"><span class="w-3 h-3 bg-blue-500 rounded-full inline-block"></span> <span>Na⁺ (Sodium Ion)</span></div>
+                    <div class="flex items-center space-x-2"><span class="w-3 h-3 bg-green-500 rounded-full inline-block"></span> <span>Cl⁻ (Chloride Ion)</span></div>
+                    <div class="text-[10px] text-slate-300 mt-1 italic">★ Ionic crystal unbinds in water</div>
+                `;
+            } else if (type === 'sugar') {
+                legendContent.innerHTML = `
+                    <div class="flex items-center space-x-2"><span class="w-3 h-3 bg-slate-400 rounded-full inline-block"></span> <span>Carbon (C)</span></div>
+                    <div class="flex items-center space-x-2"><span class="w-3 h-3 bg-red-500 rounded-full inline-block"></span> <span>Oxygen (O)</span></div>
+                    <div class="flex items-center space-x-2"><span class="w-3 h-3 bg-white border rounded-full inline-block"></span> <span>Hydrogen (H)</span></div>
+                    <div class="text-[10px] text-slate-300 mt-1 italic">★ Sucrose clusters separate & dissolve</div>
+                `;
+            } else if (type === 'sand') {
+                legendContent.innerHTML = `
+                    <div class="flex items-center space-x-2"><span class="w-3 h-3 bg-amber-600 rounded-full inline-block"></span> <span>Quartz Silica Micro-Crystal</span></div>
+                    <div class="text-[10px] text-amber-300 mt-1 italic">★ Insoluble mineral grains</div>
+                `;
+            } else if (type === 'stone') {
+                legendContent.innerHTML = `
+                    <div class="flex items-center space-x-2"><span class="w-3 h-3 bg-amber-700 rounded-full inline-block"></span> <span>Silicon (Si)</span></div>
+                    <div class="flex items-center space-x-2"><span class="w-3 h-3 bg-red-500 rounded-full inline-block"></span> <span>Oxygen (O)</span></div>
+                    <div class="flex items-center space-x-2"><span class="w-3 h-3 bg-slate-300 rounded-full inline-block"></span> <span>Calcium Metal Ion (Ca²⁺)</span></div>
+                    <div class="text-[10px] text-indigo-200 mt-1 font-semibold">★ Rigid silicosilicate network lattice stays locked in water!</div>
+                `;
+            }
+        }
+
+        function generateSucroseLattice() {
+            return [
+                { offsetX: -7, offsetY: -4, color: '#94a3b8', r: 3.5, curX: -7, curY: -4 },
+                { offsetX: 0, offsetY: -8, color: '#ef4444', r: 3, curX: 0, curY: -8 },
+                { offsetX: 7, offsetY: -4, color: '#94a3b8', r: 3.5, curX: 7, curY: -4 },
+                { offsetX: 7, offsetY: 4, color: '#ef4444', r: 3, curX: 7, curY: 4 },
+                { offsetX: 0, offsetY: 8, color: '#94a3b8', r: 3.5, curX: 0, curY: 8 },
+                { offsetX: -7, offsetY: 4, color: '#f8fafc', r: 2.5, curX: -7, curY: 4 }
+            ];
+        }
+
+        function generateStoneMineralLattice() {
+            return [
+                { offsetX: -14, offsetY: -8, color: '#b45309', r: 4.5, symbol: 'Si' },
+                { offsetX: 0, offsetY: -10, color: '#ef4444', r: 4.0, symbol: 'O' },
+                { offsetX: 14, offsetY: -8, color: '#b45309', r: 4.5, symbol: 'Si' },
+                { offsetX: -20, offsetY: 0, color: '#ef4444', r: 4.0, symbol: 'O' },
+                { offsetX: -7, offsetY: 0, color: '#e2e8f0', r: 4.0, symbol: 'Ca' },
+                { offsetX: 7, offsetY: 0, color: '#ef4444', r: 4.0, symbol: 'O' },
+                { offsetX: 20, offsetY: 0, color: '#b45309', r: 4.5, symbol: 'Si' },
+                { offsetX: -14, offsetY: 8, color: '#b45309', r: 4.5, symbol: 'Si' },
+                { offsetX: 0, offsetY: 10, color: '#e2e8f0', r: 4.0, symbol: 'Ca' },
+                { offsetX: 14, offsetY: 8, color: '#ef4444', r: 4.0, symbol: 'O' }
+            ];
+        }
+
+        function addSoluteP1(type) {
+            p1Mass += 10.0;
+            updateP1Legend(type);
+
+            const canvas = document.getElementById('p1-canvas');
+            const bWidth = canvas.width * 0.52;
+            const bLeft = (canvas.width - bWidth) / 2;
+
+            const infoText = document.getElementById('p1-info-text');
+            if (type === 'sugar') {
+                infoText.innerText = "Sugar (Sucrose): Sugar drops inside clear water. In Molecular View, sucrose ring clusters start bound together at the bottom, slowly unbind and separate within liquid bounds, shrink, and disappear!";
+            } else if (type === 'salt') {
+                infoText.innerText = "Salt (NaCl): Salt drops inside clear water. In Molecular View, blue Na+ and green Cl- ions start bound in a crystal lattice at the bottom, slowly separate from each other, shrink, and disappear!";
+            } else if (type === 'sand') {
+                infoText.innerText = "Sand: Insoluble material! Micro-silica quartz crystals fall to the bottom and remain intact permanently without dissolving.";
+            } else if (type === 'stone') {
+                infoText.innerText = "Stone: Insoluble mineral rock! Notice how the solid stone drops strictly inside the beaker and rests cleanly on the glass bottom. In Molecular View, strong covalent mineral bonds prevent water from separating its lattice!";
+            }
+
+            const count = (type === 'stone') ? 1 : (type === 'sand' ? 25 : 20);
+            for (let i = 0; i < count; i++) {
+                const rxMargin = (type === 'stone') ? 30 : 22;
+                const targetX = (bLeft + rxMargin) + Math.random() * (bWidth - rxMargin * 2);
+                
+                p1Particles.push({
+                    type: type,
+                    x: targetX,
+                    y: canvas.height * 0.15,
+                    targetX: targetX,
+                    vy: 2.2 + Math.random() * 0.5,
+                    settled: false,
+                    dissolving: false,
+                    dissolveProgress: 1.0,
+                    size: (type === 'stone') ? 22 : (type === 'sand' ? 3.5 : 4),
+                    rx: (type === 'stone') ? 22 : 4,
+                    ry: (type === 'stone') ? 14 : 4,
+                    latticeIons: (type === 'salt') ? [
+                        { offsetX: -6, offsetY: -6, charge: '+', curX: -6, curY: -6 },
+                        { offsetX: 6, offsetY: -6, charge: '+', curX: 6, curY: -6 },
+                        { offsetX: -6, offsetY: 6, charge: '-', curX: -6, curY: 6 },
+                        { offsetX: 6, offsetY: 6, charge: '-', curX: 6, curY: 6 }
+                    ] : null,
+                    latticeAtoms: (type === 'sugar') ? generateSucroseLattice() : null,
+                    stoneLattice: (type === 'stone') ? generateStoneMineralLattice() : null
+                });
+            }
+        }
+
+        function resetP1() {
+            p1Mass = 100.0;
+            p1Particles = [];
+            document.getElementById('p1-info-text').innerText = "Select a solute above to pour it into clear water. Switch between Reality View and Molecular View to examine how soluble molecules start stuck together, then slowly separate and disperse within liquid bounds during a physical change!";
+        }
+
+        function animateP1() {
+            const canvas = document.getElementById('p1-canvas');
+            if (!canvas || canvas.offsetParent === null) {
+                requestAnimationFrame(animateP1);
+                return;
+            }
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const bWidth = canvas.width * 0.52;
+            const bHeight = canvas.height * 0.65;
+            const bLeft = (canvas.width - bWidth) / 2;
+            const bTop = canvas.height * 0.22;
+            const bBottom = bTop + bHeight;
+            const liquidTop = bTop + bHeight * 0.25;
+
+            // Scale Base
+            ctx.fillStyle = '#334155';
+            ctx.beginPath();
+            ctx.rect(bLeft - 20, bBottom + 10, bWidth + 40, 25);
+            ctx.fill();
+
+            // Scale Display
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(canvas.width / 2 - 45, bBottom + 14, 90, 17);
+            ctx.fillStyle = '#22c55e';
+            ctx.font = 'bold 12px monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText(`${p1Mass.toFixed(1)} g`, canvas.width / 2, bBottom + 27);
+
+            // Water Body
+            ctx.fillStyle = 'rgba(224, 242, 254, 0.3)';
+            ctx.fillRect(bLeft + 4, liquidTop, bWidth - 8, bHeight * 0.75 - 2);
+
+            // Water Surface Line
+            ctx.strokeStyle = 'rgba(186, 230, 253, 0.8)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(bLeft + 4, liquidTop);
+            ctx.lineTo(bLeft + bWidth - 4, liquidTop);
+            ctx.stroke();
+
+            // Render Particles inside Beaker Solution
+            for (let i = p1Particles.length - 1; i >= 0; i--) {
+                const p = p1Particles[i];
+
+                if (!p.settled) {
+                    p.y += p.vy;
+                    const bottomMargin = (p.type === 'stone') ? p.ry + 2 : ((p.type === 'sugar' || p.type === 'salt') ? 14 : 6);
+                    if (p.y >= bBottom - bottomMargin) {
+                        p.y = bBottom - bottomMargin;
+                        p.settled = true;
+                        if (p.type === 'sugar' || p.type === 'salt') {
+                            p.dissolving = true;
+                        }
+                    }
+                }
+
+                if (p.dissolving) {
+                    p.dissolveProgress -= 0.005;
+
+                    if (p.latticeIons) {
+                        p.latticeIons.forEach(ion => {
+                            const factor = (1.0 - p.dissolveProgress) * 18;
+                            ion.curX = ion.offsetX + (ion.offsetX > 0 ? factor : -factor);
+                            ion.curY = ion.offsetY + (ion.offsetY > 0 ? factor : -factor);
+                            
+                            const absX = p.x + ion.curX;
+                            const absY = p.y + ion.curY;
+                            const ionRadius = 5;
+
+                            if (absX - ionRadius < bLeft + 8) ion.curX = (bLeft + 8 + ionRadius) - p.x;
+                            if (absX + ionRadius > bLeft + bWidth - 8) ion.curX = (bLeft + bWidth - 8 - ionRadius) - p.x;
+                            if (absY - ionRadius < liquidTop + 6) ion.curY = (liquidTop + 6 + ionRadius) - p.y;
+                            if (absY + ionRadius > bBottom - 6) ion.curY = (bBottom - 6 - ionRadius) - p.y;
+                        });
+                    }
+                    if (p.latticeAtoms) {
+                        p.latticeAtoms.forEach(atom => {
+                            const factor = (1.0 - p.dissolveProgress) * 16;
+                            atom.curX = atom.offsetX + (atom.offsetX > 0 ? factor : -factor);
+                            atom.curY = atom.offsetY + (atom.offsetY > 0 ? factor : -factor);
+                            
+                            const absX = p.x + atom.curX;
+                            const absY = p.y + atom.curY;
+                            const atomRadius = atom.r || 3.5;
+
+                            if (absX - atomRadius < bLeft + 8) atom.curX = (bLeft + 8 + atomRadius) - p.x;
+                            if (absX + atomRadius > bLeft + bWidth - 8) atom.curX = (bLeft + bWidth - 8 - atomRadius) - p.x;
+                            if (absY - atomRadius < liquidTop + 6) atom.curY = (liquidTop + 6 + atomRadius) - p.y;
+                            if (absY + atomRadius > bBottom - 6) atom.curY = (bBottom - 6 - atomRadius) - p.y;
+                        });
+                    }
+
+                    if (p.dissolveProgress <= 0) {
+                        p1Particles.splice(i, 1);
+                        continue;
+                    }
+                }
+
+                if (p1View === 'reality') {
+                    ctx.save();
+                    ctx.globalAlpha = p.dissolveProgress;
+                    if (p.type === 'sugar') {
+                        ctx.fillStyle = '#ffffff';
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size * p.dissolveProgress, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else if (p.type === 'salt') {
+                        ctx.fillStyle = '#f1f5f9';
+                        ctx.fillRect(p.x - 2, p.y - 2, 4 * p.dissolveProgress, 4 * p.dissolveProgress);
+                    } else if (p.type === 'sand') {
+                        ctx.fillStyle = '#d97706';
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else if (p.type === 'stone') {
+                        ctx.fillStyle = '#64748b';
+                        ctx.strokeStyle = '#334155';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.ellipse(p.x, p.y, p.rx, p.ry, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.stroke();
+
+                        ctx.fillStyle = '#94a3b8';
+                        ctx.beginPath();
+                        ctx.ellipse(p.x - 6, p.y - 4, 8, 4, -0.2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.restore();
+                } else {
+                    ctx.save();
+                    ctx.globalAlpha = p.dissolveProgress;
+
+                    if (p.type === 'salt') {
+                        p.latticeIons.forEach(ion => {
+                            const ix = p.x + ion.curX;
+                            const iy = p.y + ion.curY;
+                            ctx.fillStyle = (ion.charge === '+') ? '#3b82f6' : '#22c55e';
+                            ctx.beginPath();
+                            ctx.arc(ix, iy, 5 * p.dissolveProgress, 0, Math.PI * 2);
+                            ctx.fill();
+
+                            ctx.fillStyle = '#ffffff';
+                            ctx.font = 'bold 8px sans-serif';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(ion.charge, ix, iy);
+                        });
+                    } else if (p.type === 'sugar') {
+                        p.latticeAtoms.forEach(a => {
+                            const ax = p.x + a.curX;
+                            const ay = p.y + a.curY;
+                            ctx.fillStyle = a.color;
+                            ctx.beginPath();
+                            ctx.arc(ax, ay, a.r * p.dissolveProgress, 0, Math.PI * 2);
+                            ctx.fill();
+                        });
+                    } else if (p.type === 'sand') {
+                        ctx.fillStyle = '#b45309';
+                        ctx.fillRect(p.x - 4, p.y - 4, 8, 8);
+                        ctx.strokeStyle = '#f59e0b';
+                        ctx.strokeRect(p.x - 4, p.y - 4, 8, 8);
+                    } else if (p.type === 'stone') {
+                        ctx.fillStyle = 'rgba(51, 65, 85, 0.85)';
+                        ctx.strokeStyle = '#64748b';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.ellipse(p.x, p.y, p.rx, p.ry, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.stroke();
+
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath();
+                        p.stoneLattice.forEach((a, idx) => {
+                            p.stoneLattice.forEach((b, idx2) => {
+                                if (idx < idx2) {
+                                    const dist = Math.hypot(a.offsetX - b.offsetX, a.offsetY - b.offsetY);
+                                    if (dist < 18) {
+                                        ctx.moveTo(p.x + a.offsetX, p.y + a.offsetY);
+                                        ctx.lineTo(p.x + b.offsetX, p.y + b.offsetY);
+                                    }
+                                }
+                            });
+                        });
+                        ctx.stroke();
+
+                        p.stoneLattice.forEach(atom => {
+                            const ax = p.x + atom.offsetX;
+                            const ay = p.y + atom.offsetY;
+
+                            ctx.fillStyle = atom.color;
+                            ctx.beginPath();
+                            ctx.arc(ax, ay, atom.r, 0, Math.PI * 2);
+                            ctx.fill();
+
+                            ctx.fillStyle = '#0f172a';
+                            ctx.font = 'bold 7px sans-serif';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(atom.symbol, ax, ay);
+                        });
+                    }
+                    ctx.restore();
+                }
+            }
+
+            // Beaker Outline
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(bLeft, bTop);
+            ctx.lineTo(bLeft, bBottom);
+            ctx.lineTo(bLeft + bWidth, bBottom);
+            ctx.lineTo(bLeft + bWidth, bTop);
+            ctx.stroke();
+
+            requestAnimationFrame(animateP1);
+        }
+
+        let p2TestIndex = 1;
+        let p2TimeElapsed = 0;
+        let p2TimerRunning = false;
+        let p2CurrentCondition = null;
+        let p2TimeA = null;
+        let p2TimeB = null;
+        let p2Particles = [];
+        let p2StirAngle = 0;
+        let p2ActiveStir = 'none';
+        let p2ActiveTemp = 'room';
+        let p2ActiveSolute = 'powder';
+
+        const p2TestConfig = {
+            1: {
+                title: "Test 1: Stirring Condition",
+                desc: "Test how stirring affects dissolving speed using fine sugar in room temperature water.",
+                condA: { name: "Condition A: No Stirring", stir: "none", temp: "room", solute: "powder" },
+                condB: { name: "Condition B: Stirring", stir: "stir", temp: "room", solute: "powder" },
+                explanation: "Stirring moves the water around! It carries dissolved sugar away so fresh water can keep touching and breaking down the remaining sugar faster!"
+            },
+            2: {
+                title: "Test 2: Water Temperature",
+                desc: "Test how water temperature affects dissolving speed with stirring.",
+                condA: { name: "Condition A: Cold Water (10°C)", stir: "stir", temp: "cold", solute: "powder" },
+                condB: { name: "Condition B: Hot Water (80°C)", stir: "stir", temp: "hot", solute: "powder" },
+                explanation: "Hot water has lots of heat energy! The water drops zoom around super fast and bump into the sugar much harder and faster!"
+            },
+            3: {
+                title: "Test 3: Surface Area / Particle Size",
+                desc: "Test large sugar lump vs fine sugar powder in room temp water with stirring.",
+                condA: { name: "Condition A: Large Sugar Lump", stir: "stir", temp: "room", solute: "lump" },
+                condB: { name: "Condition B: Fine Sugar Powder", stir: "stir", temp: "room", solute: "powder" },
+                explanation: "Fine powder is crushed into tiny pieces! Water can touch and dissolve all the little grains at the exact same time, instead of waiting for a big lump to dissolve step-by-step!"
+            },
+            4: {
+                title: "Test 4: Free Sandbox Challenge",
+                desc: "Adjust all parameters freely to discover the FASTEST dissolving combination possible!",
+                explanation: "Super job! Hot Water + Stirring + Fine Powder is the ultimate fast combo! Everything works together to dissolve it in a flash!"
+            }
+        };
+
+        function selectP2Test(testIdx) {
+            p2TestIndex = testIdx;
+            p2TimeA = null;
+            p2TimeB = null;
+            p2TimerRunning = false;
+            p2Particles = [];
+            p2TimeElapsed = 0;
+
+            document.getElementById('p2-timer').innerText = '0.0s';
+            document.getElementById('p2-time-a').innerText = '--';
+            document.getElementById('p2-time-b').innerText = '--';
+            document.getElementById('p2-explanation-box').classList.add('hidden');
+            document.getElementById('p2-congrats-box').classList.add('hidden');
+
+            const nextBtn = document.getElementById('p2-next-test-btn');
+            nextBtn.disabled = true;
+            nextBtn.className = "w-full py-2.5 bg-slate-200 text-slate-400 font-bold text-xs rounded-xl transition-all flex items-center justify-center space-x-1 cursor-not-allowed";
+
+            for (let i = 1; i <= 4; i++) {
+                const tab = document.getElementById(`p2-tab-${i}`);
+                if (tab) {
+                    if (i === testIdx) {
+                        tab.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-white shadow-sm";
+                    } else {
+                        tab.className = "px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900";
+                    }
+                }
+            }
+
+            const config = p2TestConfig[testIdx];
+            document.getElementById('p2-guide-title').innerText = config.title;
+            document.getElementById('p2-guide-desc').innerText = config.desc;
+
+            const condABtn = document.getElementById('p2-btn-cond-a');
+            const condBBtn = document.getElementById('p2-btn-cond-b');
+            const freeCtrls = document.getElementById('p2-free-controls');
+
+            if (testIdx === 4) {
+                condABtn.classList.add('hidden');
+                condBBtn.classList.add('hidden');
+                freeCtrls.classList.remove('hidden');
+                nextBtn.classList.add('hidden');
+                updateP2SimulatorPreview();
+            } else {
+                condABtn.classList.remove('hidden');
+                condBBtn.classList.remove('hidden');
+                freeCtrls.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+
+                document.getElementById('p2-cond-a-title').innerText = config.condA.name;
+                document.getElementById('p2-cond-b-title').innerText = config.condB.name;
+                
+                // Set default preview for Condition A
+                p2ActiveStir = config.condA.stir;
+                p2ActiveTemp = config.condA.temp;
+                p2ActiveSolute = config.condA.solute;
+                updateP2StatusDisplay();
+            }
+        }
+
+        function updateP2SimulatorPreview() {
+            if (p2TestIndex === 4) {
+                p2ActiveStir = document.getElementById('free-stir').value;
+                p2ActiveTemp = document.getElementById('free-temp').value;
+                p2ActiveSolute = document.getElementById('free-solute').value;
+                updateP2StatusDisplay();
+            }
+        }
+
+        function updateP2StatusDisplay() {
+            const tempMap = { 'cold': '10°C (Cold)', 'room': '25°C (Room)', 'hot': '80°C (Hot)' };
+            const stirMap = { 'none': 'No Stirring', 'stir': 'Stirring' };
+            const soluteMap = { 'lump': 'Large Lump', 'powder': 'Fine Powder' };
+
+            document.getElementById('p2-status-temp').innerText = tempMap[p2ActiveTemp] || '25°C';
+            document.getElementById('p2-status-stir').innerText = stirMap[p2ActiveStir] || 'No Stirring';
+            document.getElementById('p2-status-solute').innerText = soluteMap[p2ActiveSolute] || 'Fine Powder';
+        }
+
+        function runP2Condition(condKey) {
+            p2CurrentCondition = condKey;
+            const config = p2TestConfig[p2TestIndex];
+            const cond = (condKey === 'A') ? config.condA : config.condB;
+            
+            p2ActiveStir = cond.stir;
+            p2ActiveTemp = cond.temp;
+            p2ActiveSolute = cond.solute;
+            updateP2StatusDisplay();
+
+            startP2Simulation(cond.stir, cond.temp, cond.solute);
+        }
+
+        function runP2FreeTest() {
+            p2CurrentCondition = 'FREE';
+            p2ActiveStir = document.getElementById('free-stir').value;
+            p2ActiveTemp = document.getElementById('free-temp').value;
+            p2ActiveSolute = document.getElementById('free-solute').value;
+            updateP2StatusDisplay();
+
+            startP2Simulation(p2ActiveStir, p2ActiveTemp, p2ActiveSolute);
+        }
+
+        function startP2Simulation(stir, temp, solute) {
+            p2Particles = [];
+            p2TimeElapsed = 0;
+            p2TimerRunning = true;
+
+            const canvas = document.getElementById('p2-canvas');
+            const bLeft = canvas.width * 0.28;
+            const bRight = canvas.width * 0.72;
+
+            const count = (solute === 'lump') ? 4 : 30;
+            for (let i = 0; i < count; i++) {
+                p2Particles.push({
+                    x: bLeft + 20 + Math.random() * (bRight - bLeft - 40),
+                    y: canvas.height * 0.18 + (Math.random() * 15),
+                    vy: 1.8 + Math.random() * 0.5,
+                    soluteType: solute,
+                    tempType: temp,
+                    stirType: stir,
+                    size: (solute === 'lump') ? 14 : 3.5,
+                    dissolveProgress: 1.0
+                });
+            }
+        }
+
+        function nextP2Test() {
+            if (p2TestIndex < 4) selectP2Test(p2TestIndex + 1);
+        }
+
+        function animateP2() {
+            const canvas = document.getElementById('p2-canvas');
+            if (!canvas || canvas.offsetParent === null) {
+                requestAnimationFrame(animateP2);
+                return;
+            }
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const bWidth = canvas.width * 0.52;
+            const bHeight = canvas.height * 0.62;
+            const bLeft = (canvas.width - bWidth) / 2;
+            const bTop = canvas.height * 0.25;
+            const bBottom = bTop + bHeight;
+            const liquidTop = bTop + bHeight * 0.25;
+
+            if (p2TimerRunning && p2Particles.length > 0) {
+                p2TimeElapsed += (1 / 60);
+                document.getElementById('p2-timer').innerText = `${p2TimeElapsed.toFixed(1)}s`;
+            }
+
+            // Stand / Base
+            ctx.fillStyle = '#334155';
+            ctx.beginPath();
+            ctx.rect(bLeft - 15, bBottom + 10, bWidth + 30, 20);
+            ctx.fill();
+
+            // Liquid tint & thermal effects
+            let waterStyle = 'rgba(224, 242, 254, 0.35)';
+            if (p2ActiveTemp === 'hot') waterStyle = 'rgba(254, 226, 226, 0.45)';
+            if (p2ActiveTemp === 'cold') waterStyle = 'rgba(224, 231, 255, 0.45)';
+
+            ctx.fillStyle = waterStyle;
+            ctx.fillRect(bLeft + 4, liquidTop, bWidth - 8, bHeight * 0.75 - 2);
+
+            // Water surface line
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(bLeft + 4, liquidTop);
+            ctx.lineTo(bLeft + bWidth - 4, liquidTop);
+            ctx.stroke();
+
+            // Temperature effects (Steam for hot, Ice crystals for cold)
+            if (p2ActiveTemp === 'hot') {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+                for (let s = 0; s < 4; s++) {
+                    const sx = bLeft + 30 + (s * (bWidth - 60) / 3) + Math.sin(Date.now() * 0.003 + s) * 5;
+                    const sy = liquidTop - 10 - (Date.now() * 0.02 + s * 15) % 35;
+                    ctx.beginPath();
+                    ctx.arc(sx, sy, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else if (p2ActiveTemp === 'cold') {
+                ctx.fillStyle = 'rgba(191, 219, 254, 0.7)';
+                ctx.font = '10px sans-serif';
+                ctx.fillText('❄️', bLeft + 12, liquidTop + 20);
+                ctx.fillText('❄️', bLeft + bWidth - 25, liquidTop + 25);
+            }
+
+            // Stirring Rod Rendering
+            if (p2ActiveStir === 'stir') {
+                p2StirAngle += 0.1;
+                const stirX = canvas.width / 2 + Math.sin(p2StirAngle) * (bWidth * 0.22);
+                
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
+                ctx.lineWidth = 6;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(canvas.width / 2 + (stirX - canvas.width / 2) * 0.4, bTop - 15);
+                ctx.lineTo(stirX, bBottom - 25);
+                ctx.stroke();
+            }
+
+            // Particles strictly inside liquid
+            for (let i = p2Particles.length - 1; i >= 0; i--) {
+                const p = p2Particles[i];
+
+                if (p.y < bBottom - 12) {
+                    p.y += p.vy;
+                    if (p.x < bLeft + 12) p.x = bLeft + 12;
+                    if (p.x > bLeft + bWidth - 12) p.x = bLeft + bWidth - 12;
+                } else {
+                    if (p.stirType === 'stir') p.x += (Math.random() - 0.5) * 2.0;
+                }
+
+                let rate = 0.0018;
+                if (p.stirType === 'stir') rate *= 2.8;
+                if (p.tempType === 'hot') rate *= 2.4;
+                if (p.soluteType === 'powder') rate *= 1.8;
+
+                p.dissolveProgress -= rate;
+
+                if (p.dissolveProgress <= 0) {
+                    p2Particles.splice(i, 1);
+                    continue;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = p.dissolveProgress;
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = '#cbd5e1';
+
+                if (p.soluteType === 'lump') {
+                    ctx.beginPath();
+                    ctx.rect(p.x - p.size / 2, p.y - p.size / 2, p.size * p.dissolveProgress, p.size * p.dissolveProgress);
+                    ctx.fill();
+                    ctx.stroke();
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * p.dissolveProgress, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+
+            // Timer complete check
+            if (p2TimerRunning && p2Particles.length === 0) {
+                p2TimerRunning = false;
+                const finalTime = `${p2TimeElapsed.toFixed(1)}s`;
+
+                if (p2CurrentCondition === 'A') {
+                    p2TimeA = finalTime;
+                    document.getElementById('p2-time-a').innerText = p2TimeA;
+                } else if (p2CurrentCondition === 'B') {
+                    p2TimeB = finalTime;
+                    document.getElementById('p2-time-b').innerText = p2TimeB;
+                } else if (p2CurrentCondition === 'FREE') {
+                    document.getElementById('p2-time-a').innerText = finalTime;
+                }
+
+                if (p2CurrentCondition === 'FREE') {
+                    const stir = document.getElementById('free-stir').value;
+                    const temp = document.getElementById('free-temp').value;
+                    const solute = document.getElementById('free-solute').value;
+
+                    if (stir === 'stir' && temp === 'hot' && solute === 'powder') {
+                        document.getElementById('p2-congrats-box').classList.remove('hidden');
+                        document.getElementById('p2-explanation-box').classList.add('hidden');
+                    } else {
+                        const expBox = document.getElementById('p2-explanation-box');
+                        const expText = document.getElementById('p2-explanation-text');
+                        expBox.classList.remove('hidden');
+                        expText.innerText = `Dissolving finished in ${finalTime}! Tip: Select Stirring + Hot Water + Fine Powder to unlock the ultimate fastest combination!`;
+                    }
+                } else if (p2TimeA && p2TimeB) {
+                    const expBox = document.getElementById('p2-explanation-box');
+                    const expText = document.getElementById('p2-explanation-text');
+                    expBox.classList.remove('hidden');
+                    expText.innerText = p2TestConfig[p2TestIndex].explanation;
+
+                    const nextBtn = document.getElementById('p2-next-test-btn');
+                    nextBtn.disabled = false;
+                    nextBtn.className = "w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-center space-x-1";
+                }
+            }
+
+            // Beaker Glass Frame
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(bLeft, bTop);
+            ctx.lineTo(bLeft, bBottom);
+            ctx.lineTo(bLeft + bWidth, bBottom);
+            ctx.lineTo(bLeft + bWidth, bTop);
+            ctx.stroke();
+
+            requestAnimationFrame(animateP2);
+        }
+
+        const quizAnswers = { 1: 'C', 2: 'B', 3: 'A', 4: 'C', 5: 'B' };
+
+        function checkQuiz(qNum, selectedOpt) {
+            const feedback = document.getElementById(`q${qNum}-feedback`);
+            feedback.classList.remove('hidden');
+
+            if (selectedOpt === quizAnswers[qNum]) {
+                feedback.className = "text-xs font-bold p-2.5 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-300 mt-2";
+                feedback.innerText = "🎉 Correct! Outstanding scientific reasoning!";
+            } else {
+                feedback.className = "text-xs font-bold p-2.5 rounded-lg bg-rose-100 text-rose-800 border border-rose-300 mt-2";
+                feedback.innerText = "❌ Not quite right! Think back to how stirring, temperature, and particle surface area affect dissolving speed.";
+            }
+        }
+
+        function resetQuiz() {
+            for (let i = 1; i <= 5; i++) {
+                const fb = document.getElementById(`q${i}-feedback`);
+                if (fb) fb.classList.add('hidden');
+            }
+        }
+
+        let p5Scoops = 0;
+        let p5Particles = [];
+
+        function addScoopP5() {
+            if (p5Scoops < 5) p5Scoops++;
+            
+            document.getElementById('p5-scoop-count').innerText = `${p5Scoops} / 5 Scoops`;
+            const statusEl = document.getElementById('p5-status');
+            const infoText = document.getElementById('p5-info-text');
+
+            if (p5Scoops <= 3) {
+                statusEl.innerText = (p5Scoops === 1) ? "Dilute Solution" : "Concentrated Solution";
+                statusEl.className = "font-bold text-emerald-600";
+                infoText.innerText = "The drink powder dissolves cleanly! As you add more scoops, the drink mix becomes higher in concentration and turns a deeper red color.";
+            } else {
+                statusEl.innerText = "SATURATED! ⚠️";
+                statusEl.className = "font-bold text-rose-600";
+                infoText.innerText = "SATURATION LIMIT REACHED! Water has reached its maximum capacity and cannot dissolve any more powder. Extra powder settles at the bottom as sediment!";
+            }
+
+            const canvas = document.getElementById('p5-canvas');
+            const bLeft = canvas.width * 0.28;
+            const bRight = canvas.width * 0.72;
+
+            for (let i = 0; i < 25; i++) {
+                p5Particles.push({
+                    x: bLeft + 20 + Math.random() * (bRight - bLeft - 40),
+                    y: canvas.height * 0.15,
+                    vy: 2 + Math.random() * 1.5,
+                    dissolving: (p5Scoops <= 3),
+                    dissolveProgress: 1.0
+                });
+            }
+        }
+
+        function resetP5() {
+            p5Scoops = 0;
+            p5Particles = [];
+            document.getElementById('p5-scoop-count').innerText = "0 / 5 Scoops";
+            document.getElementById('p5-status').innerText = "Dilute Solution";
+            document.getElementById('p5-status').className = "font-bold text-emerald-600";
+            document.getElementById('p5-info-text').innerText = "When you add solute, it dissolves and water color deepens (higher concentration). But water can only hold a maximum amount of solute! When no more solute can dissolve, the solution is SATURATED.";
+        }
+
+        function animateP5() {
+            const canvas = document.getElementById('p5-canvas');
+            if (!canvas || canvas.offsetParent === null) {
+                requestAnimationFrame(animateP5);
+                return;
+            }
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const bWidth = canvas.width * 0.52;
+            const bHeight = canvas.height * 0.65;
+            const bLeft = (canvas.width - bWidth) / 2;
+            const bTop = canvas.height * 0.22;
+            const bBottom = bTop + bHeight;
+
+            const alpha = Math.min(0.85, p5Scoops * 0.18);
+            ctx.fillStyle = `rgba(244, 63, 94, ${alpha})`;
+            ctx.fillRect(bLeft + 4, bTop + bHeight * 0.25, bWidth - 8, bHeight * 0.75 - 2);
+
+            for (let i = p5Particles.length - 1; i >= 0; i--) {
+                const p = p5Particles[i];
+                if (p.y < bBottom - 10) {
+                    p.y += p.vy;
+                }
+
+                if (p.dissolving) {
+                    p.dissolveProgress -= 0.01;
+                    if (p.dissolveProgress <= 0) {
+                        p5Particles.splice(i, 1);
+                        continue;
+                    }
+                }
+
+                ctx.save();
+                ctx.globalAlpha = p.dissolveProgress;
+                ctx.fillStyle = '#f43f5e';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(bLeft, bTop);
+            ctx.lineTo(bLeft, bBottom);
+            ctx.lineTo(bLeft + bWidth, bBottom);
+            ctx.lineTo(bLeft + bWidth, bTop);
+            ctx.stroke();
+
+            requestAnimationFrame(animateP5);
+        }
+
+        window.onload = function () {
+            resizeCanvases();
+            selectP2Test(1);
+            requestAnimationFrame(animateP1);
+            requestAnimationFrame(animateP2);
+            requestAnimationFrame(animateP5);
+        };
+    </script>
+</body>
+</html>
